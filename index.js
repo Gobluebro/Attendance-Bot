@@ -43,9 +43,9 @@ function saveAttendance(attendanceArr){
     } 
 }
 
-client.on('ready', () => {
+// client.on('ready', () => {
 
-});
+// });
 
 client.on("message", async message => {
     //only that channel
