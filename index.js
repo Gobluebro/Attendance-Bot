@@ -101,24 +101,29 @@ Make sure format is in year/month e.g. "!attenddeletemonth 2017/12".`);
                     message.reply('Please wait until recording is finished to add someone.');
                 } else {
                     var thisMonth = args[0].split('/')[0] + '-' + args[0].split('/')[1];
-                    fs.open('./logs/' + thisMonth + '.txt', 'wx', (err, fd) =>{
-                        if (err){
-                            //if the file exists already append the array to it
-                            if(err.code === 'EEXIST'){
-                                //flags a means append
-                                var addUserStream = fs.createWriteStream('./logs/' + thisMonth + '.txt', {flags:'a'});
-                                addUserStream.write(args[0] + '\n');
-                                addUserStream.write(args[1] + '\n');
-                                addUserStream.end();
-                                return;
-                            } else {
+                    fs.open('./logs/' + thisMonth + '.txt', 'r', (err, fd) =>{
+                        if(err){
+                            if(err.code === 'ENOENT'){
                                 return message.reply(`That file does not exist. 
-    Make sure you have the correct format e.g, !attendadd 2017/12/25 username`)
+Make sure you have the correct format e.g, !attendadd 2017/12/25 username`);
                             }
                             throw err;
-                            return;
                         }
-                        return message.reply(`${args[1]} has been added to the record on ${args[0]}.`);
+                        fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data){
+                            if (err) throw err;
+                            var wholeFile = data.toString();
+                            var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
+                            var nextDayFull = args[0].split('/')[0] + '/' + args[0].split('/')[1] + '/' + nextDay.toString();
+                            var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(nextDayFull) - 1);
+                            var lastPartFile = wholeFile.substring(wholeFile.indexOf(nextDayFull), wholeFile.length);
+                            var addUser = '\n' + args[1] + '\n';
+                            var combine = firstPartFile + addUser + lastPartFile;
+                            console.log(combine);
+                            fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', (err) => {
+                                    if (err) throw err;
+                                    return message.reply(`${args[1]} has been added to the recording on ${args[0]}`);
+                            });
+                        });
                     });
                 }
                 break;
@@ -131,7 +136,7 @@ Make sure format is in year/month e.g. "!attenddeletemonth 2017/12".`);
                         if(err){
                             if(err.code === 'ENOENT'){
                                 return message.reply(`That file does not exist. 
-Make sure you have the correct format e.g, !attendadd 2017/12/25 username`);
+Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
                             }
                             throw err;
                         }
