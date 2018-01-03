@@ -24,7 +24,7 @@ function saveAttendance(attendanceArr){
                     //flags a means append
                     var appendExistingStream = fs.createWriteStream('./logs/' + thisMonth + '.txt', {flags:'a'});
                     for (var i = 0; i < attendanceArr.length; i++){
-                        appendExistingStream.write(attendanceArr[i] + '\n');
+                        appendExistingStream.write(attendanceArr[i] + '\r\n');
                     }
                     appendExistingStream.end();
                     return;
@@ -35,7 +35,7 @@ function saveAttendance(attendanceArr){
             //defaults to just writing not appending.
             var newFileStream = fs.createWriteStream('./logs/' + thisMonth + '.txt');
             for (var i = 0; i < attendanceArr.length; i++){
-                newFileStream.write(attendanceArr[i] + '\n');
+                newFileStream.write(attendanceArr[i] + '\r\n');
             }
             newFileStream.end();
             return;
@@ -49,7 +49,7 @@ function saveAttendance(attendanceArr){
 
 client.on("message", async message => {
     //only that channel
-    if (message.channel.id !== config.giveawayChannel) return;
+    if (message.channel.id !== config.giveawayChannel && message.channel.id !== config.giveawayChannelTest) return;
     //don't accept anything from the bot
     if (message.author.bot) return;
     //requires the prefix
@@ -80,6 +80,7 @@ client.on("message", async message => {
                 }
                 break;
             //#endregion
+            //attendview
             //#region attenddeletemonth
             case "attenddeletemonth":
                 var thisMonth = args[0].split('/')[0] + '-' + args[0].split('/')[1];
@@ -116,7 +117,7 @@ Make sure you have the correct format e.g, !attendadd 2017/12/25 username`);
                             var nextDayFull = args[0].split('/')[0] + '/' + args[0].split('/')[1] + '/' + nextDay.toString();
                             var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(nextDayFull) - 1);
                             var lastPartFile = wholeFile.substring(wholeFile.indexOf(nextDayFull), wholeFile.length);
-                            var addUser = '\n' + args[1] + '\n';
+                            var addUser = '\r\n' + args[1] + '\r\n';
                             var combine = firstPartFile + addUser + lastPartFile;
                             console.log(combine);
                             fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', (err) => {
@@ -168,17 +169,16 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
             //#endregion
             //#region attendhelp
             case "attendhelp":
-            
-                var printHelp = `!entry - User command to enter in the giveaway during attendance recording. 
-    !attendautoman - Sets the bot in auto or manual mode and follows those rules. 
-    !attenddeletemonth - Delete a specific month’s recording of attendance. 
-    !attendadd - Adds a user to attendance based on moderator discretion. 
-    !attendremove - Removes a user from attendance based on moderator discretion. 
-    !attendstart - Starts the recording of attendance. 
-    !attendstop - Stops the recording of attendance. 
-    !attendtimestart - Set the start time of the attendance. 
-    !attendtimeend - Set the ending time of the attendance. 
-    !attendlength - Set the length of attendance recording time.`;
+                var printHelp = "!enter - User command to enter in the giveaway during attendance recording.\n" +
+                "!attendautoman - Sets the bot in auto or manual mode and follows those rules.\n" +
+                "!attenddeletemonth - Delete a specific month’s recording of attendance.\n" +
+                "!attendadd - Adds a user to attendance based on moderator discretion.\n" +
+                "!attendremove - Removes a user from attendance based on moderator discretion.\n" +
+                "!attendstart - Starts the recording of attendance.\n" +
+                "!attendstop - Stops the recording of attendance.\n" +
+                "!attendtimestart - Set the start time of the attendance.\n" +
+                "!attendtimeend - Set the ending time of the attendance.\n" +
+                "!attendlength - Set the length of attendance recording time.\n";
                 message.channel.send(printHelp);
                 break;
             //#endregion
@@ -197,7 +197,7 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
                         config.isRecording = true;
                         //start the recording
                         return message.channel.send(`Attendance recording has started. 
-Please enter the command "!entry" to have your name recorded for attendance.`);
+Please enter the command "!enter" to have your name recorded for attendance.`);
                     }
                 }   
                 break;
@@ -260,14 +260,18 @@ Please enter the command "!entry" to have your name recorded for attendance.`);
     //#endregion
 
     //#region All users commands
-    if (command === "entry"){
+    if (command === "enter"){
         if (config.isRecording){
             //only enter their username if they haven't entered today already
             if (config.attendanceArray.includes(message.author.username)){
                 return message.reply("You have already entered today.");
             } else {
-                //getting their username
-                config.attendanceArray.push(message.author.username);
+                //prefer getting their nickname otherwise get their username
+                if (message.member.nickname == null){
+                    config.attendanceArray.push(message.author.username);
+                } else {
+                    config.attendanceArray.push(message.member.nickname);
+                }                
             }
         } else {
             return message.reply(`Attendance bot is not currently recording.
