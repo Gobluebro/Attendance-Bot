@@ -117,6 +117,7 @@ Make sure you have the correct format e.g, !attendadd 2017/12/25 username`);
                             var nextDayFull = args[0].split('/')[0] + '/' + args[0].split('/')[1] + '/' + nextDay.toString();
                             var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(nextDayFull) - 1);
                             var lastPartFile = wholeFile.substring(wholeFile.indexOf(nextDayFull), wholeFile.length);
+                            //this doesn't work if there is no other date in the file.
                             var addUser = '\r\n' + args[1] + '\r\n';
                             var combine = firstPartFile + addUser + lastPartFile;
                             console.log(combine);
@@ -169,17 +170,24 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
             //#endregion
             //#region attendhelp
             case "attendhelp":
-                var printHelp = "!enter - User command to enter in the giveaway during attendance recording.\n" +
-                "!attendautoman - Sets the bot in auto or manual mode and follows those rules.\n" +
-                "!attenddeletemonth - Delete a specific month’s recording of attendance.\n" +
-                "!attendadd - Adds a user to attendance based on moderator discretion.\n" +
-                "!attendremove - Removes a user from attendance based on moderator discretion.\n" +
-                "!attendstart - Starts the recording of attendance.\n" +
-                "!attendstop - Stops the recording of attendance.\n" +
-                "!attendtimestart - Set the start time of the attendance.\n" +
-                "!attendtimeend - Set the ending time of the attendance.\n" +
-                "!attendlength - Set the length of attendance recording time.\n";
-                message.channel.send(printHelp);
+                var printHelp = "**!enter** - User command to enter in the giveaway during attendance recording.\n" +
+                "**!attendautoman** - Sets the bot in auto or manual mode and follows those rules.\n" +
+                "**!attenddeletemonth** - Delete a specific month’s recording of attendance.\n" +
+                "**!attendadd** - Adds a user to attendance based on moderator discretion.\n" +
+                "**!attendremove** - Removes a user from attendance based on moderator discretion.\n" +
+                "**!attendstart** - Starts the recording of attendance.\n" +
+                "**!attendstop** - Stops the recording of attendance.\n" +
+                "**!attendtimestart** - Set the start time of the attendance.\n" +
+                "**!attendtimeend** - Set the ending time of the attendance.\n" +
+                "**!attendlength** - Set the length of attendance recording time.\n";
+                if (args[1] === "text"){
+                    return message.channel.send(printHelp);
+                } else {
+                    return message.channel.send({embed: {
+                        color: 3447003,
+                        description: printHelp
+                      }});
+                }
                 break;
             //#endregion
             //#endregion
