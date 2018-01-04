@@ -24,7 +24,7 @@ function saveAttendance(attendanceArr){
                     //flags a means append
                     var appendExistingStream = fs.createWriteStream('./logs/' + thisMonth + '.txt', {flags:'a'});
                     for (var i = 0; i < attendanceArr.length; i++){
-                        appendExistingStream.write(attendanceArr[i] + '\r\n');
+                        appendExistingStream.write('\r\n' + attendanceArr[i]);
                     }
                     appendExistingStream.end();
                     return;
@@ -34,13 +34,52 @@ function saveAttendance(attendanceArr){
             }
             //defaults to just writing not appending.
             var newFileStream = fs.createWriteStream('./logs/' + thisMonth + '.txt');
-            for (var i = 0; i < attendanceArr.length; i++){
-                newFileStream.write(attendanceArr[i] + '\r\n');
+            newFileStream.write(attendanceArr[0]);
+            if (attendanceArr[1] != null){
+                for (var i = 1; i < attendanceArr.length; i++){
+                    newFileStream.write('\r\n' + attendanceArr[i]);
+                }
             }
             newFileStream.end();
             return;
         });
     } 
+}
+
+function checkArguments(args){
+    var errorLog = "";
+    var yearString = args[0].split('/')[0];
+    var monthString = args[0].split('/')[1];
+    var dayString = args[0].split('/')[2]
+    //checking to make sure they are numbers
+    var yearInt = parseInt(yearString);
+    var monthInt = parseInt(monthString);
+    var dayInt = parseInt(dayString);
+    //check if missing arguments
+    if (args[0] == undefined || args[1] == undefined){
+        errorLog = 'The command you entered is missing some information \n' + 
+            'e.g. !attendadd 2017/12/25 username';
+        return errorLog;
+    //check if too many arguments
+    } else if(args.length >= 3){
+        errorLog = 'You have too many arguments. There should only be 2 \n' +
+            'e.g. !attendadd 2017/12/25 username';
+        return errorLog;
+    //check if the date is in the correct format. 
+    } else if(isNaN(yearInt) 
+        || isNaN(monthInt) 
+        || isNaN(dayInt)
+        || args[0].split('/').length > 3
+        || yearString.length != 4
+        || monthString.length < 1
+        || monthString.length > 2
+        || dayString.length < 1
+        || dayString.length > 2){
+        errorLog = 'The command you entered is not formated correctly \n' +
+            'e.g. !attendadd 2017/12/25 username';
+        return errorLog;
+    }
+    return errorLog;
 }
 
 // client.on('ready', () => {
@@ -99,32 +138,48 @@ Make sure format is in year/month e.g. "!attenddeletemonth 2017/12".`);
             case "attendadd":
                 //append to the file
                 if (config.isRecording){
-                    message.reply('Please wait until recording is finished to add someone.');
+                    return message.reply('Please wait until recording is finished to add someone.');
                 } else {
-                    var thisMonth = args[0].split('/')[0] + '-' + args[0].split('/')[1];
+                    //test if they entered arguments and post an error message if they did
+                    var anyError = checkArguments(args, message);
+                    if (anyError != ""){
+                        return message.reply(anyError);
+                    }
+                    var theYear = parseInt(args[0].split('/')[0]).toString();
+                    var theMonth = parseInt(args[0].split('/')[1]).toString();
+                    var thisMonth = theYear  + '-' + theMonth;
                     fs.open('./logs/' + thisMonth + '.txt', 'r', (err, fd) =>{
                         if(err){
                             if(err.code === 'ENOENT'){
-                                return message.reply(`That file does not exist. 
-Make sure you have the correct format e.g, !attendadd 2017/12/25 username`);
+                                return message.reply('That file does not exist.\n' +
+                                'Make sure you have the correct format e.g, !attendadd 2017/12/25 username');
                             }
                             throw err;
                         }
                         fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data){
                             if (err) throw err;
                             var wholeFile = data.toString();
+                            var thisDay = args[0];
                             var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
                             var nextDayFull = args[0].split('/')[0] + '/' + args[0].split('/')[1] + '/' + nextDay.toString();
-                            var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(nextDayFull) - 1);
-                            var lastPartFile = wholeFile.substring(wholeFile.indexOf(nextDayFull), wholeFile.length);
-                            //this doesn't work if there is no other date in the file.
-                            var addUser = '\r\n' + args[1] + '\r\n';
-                            var combine = firstPartFile + addUser + lastPartFile;
-                            console.log(combine);
-                            fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', (err) => {
+                            if (wholeFile.indexOf(thisDay) == -1){
+                                return message.reply(args[0] + ' is not recorded yet.');
+                            } else if (wholeFile.indexOf(nextDayFull) == -1) {
+                                var addUserToEnd = wholeFile + '\r\n' + args[1];
+                                fs.writeFile('./logs/' + thisMonth + '.txt', addUserToEnd, 'utf8', (err) => {
                                     if (err) throw err;
                                     return message.reply(`${args[1]} has been added to the recording on ${args[0]}`);
-                            });
+                                });
+                            } else {
+                                var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(nextDayFull) - 1);
+                                var lastPartFile = wholeFile.substring(wholeFile.indexOf(nextDayFull), wholeFile.length);
+                                var addUser = '\n' + args[1] + '\r\n';
+                                var combine = firstPartFile + addUser + lastPartFile;
+                                fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', (err) => {
+                                        if (err) throw err;
+                                        return message.reply(`${args[1]} has been added to the recording on ${args[0]}`);
+                                });
+                            }
                         });
                     });
                 }
@@ -180,7 +235,7 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
                 "**!attendtimestart** - Set the start time of the attendance.\n" +
                 "**!attendtimeend** - Set the ending time of the attendance.\n" +
                 "**!attendlength** - Set the length of attendance recording time.\n";
-                if (args[1] === "text"){
+                if (args[0] === "text"){
                     return message.channel.send(printHelp);
                 } else {
                     return message.channel.send({embed: {
@@ -196,7 +251,8 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
             //#region attendstart
             case "attendstart":
                 if (config.isAutomated){
-                    return message.reply(`Attendance Bot is currently in automation mode. If you wish to start the attendance bot manually please use the command "!attendautoman" to switch.`);
+                    return message.reply('Attendance Bot is currently in automation mode. \n' +
+                        'If you wish to start the attendance bot manually please use the command !attendautoman to switch.');
                 } else {
                     if (config.isRecording){
                         return message.reply('Attendance Bot is already recording.');
@@ -204,8 +260,8 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
                         config.attendanceArray = [];
                         config.isRecording = true;
                         //start the recording
-                        return message.channel.send(`Attendance recording has started. 
-Please enter the command "!enter" to have your name recorded for attendance.`);
+                        return message.channel.send('Attendance recording has started. \n' +
+                            'Please enter the command !enter to have your name recorded for attendance.');
                     }
                 }   
                 break;

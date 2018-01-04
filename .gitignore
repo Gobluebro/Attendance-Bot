@@ -1,5 +1,7 @@
 
+#Config files contain personal information#
 config.json
 config2.json
-logs/2018-1.txt
-logs/copy-2018-1.txt
+
+#log files#
+logs/*.txt
