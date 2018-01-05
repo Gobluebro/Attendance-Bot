@@ -240,7 +240,8 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
                 } else {
                     return message.channel.send({embed: {
                         color: 3447003,
-                        description: printHelp
+                        description: printHelp,
+                        title: "Command List"
                       }});
                 }
                 break;
@@ -327,7 +328,8 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
     if (command === "enter"){
         if (config.isRecording){
             //only enter their username if they haven't entered today already
-            if (config.attendanceArray.includes(message.author.username)){
+            if (config.attendanceArray.includes(message.author.username)
+                || config.attendanceArray.includes(message.member.nickname)){
                 return message.reply("You have already entered today.");
             } else {
                 //prefer getting their nickname otherwise get their username
