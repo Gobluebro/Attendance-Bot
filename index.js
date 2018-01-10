@@ -330,6 +330,7 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
         var printHelp =
           '**!enter** - User command to enter in the giveaway during attendance recording.\n' +
           '**!attendautoman** - Sets the bot in auto or manual mode and follows those rules.\n' +
+          '**!attendcurrent** - Shows the currently recorded users during attendance.\n' +
           '**!attenddeletemonth** - Delete a specific month’s recording of attendance.\n' +
           '**!attendadd** - Adds a user to attendance based on moderator discretion.\n' +
           '**!attendremove** - Removes a user from attendance based on moderator discretion.\n' +
@@ -344,8 +345,17 @@ Make sure you have the correct format e.g, !attendremove 2017/12/25 username`);
           return message.channel.send({
             embed: {
               color: 3447003,
-              description: printHelp,
-              title: 'Command List'
+              description: printHelp + '[Made by Gobluebro]()',
+              title: '__Command List__',
+              author: {
+                name: 'Attendance-bot',
+                url: 'https://github.com/Gobluebro/Attendance-Bot',
+                icon_url: client.user.avatarURL
+              },
+              footer: {
+                icon_url: client.user.avatarURL,
+                text: 'Made by Gobluebro'
+              }
             }
           });
         }
