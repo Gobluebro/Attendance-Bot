@@ -1,7 +1,8 @@
 
 #Config files contain personal information#
 config.json
-config2.json
+copy-config.json
 
 #log files#
 logs/*.txt
+
