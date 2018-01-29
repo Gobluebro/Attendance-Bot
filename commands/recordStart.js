@@ -11,6 +11,7 @@ exports.run = (client, message, config) => {
       return message.reply('Attendance Bot is already recording.');
     } else {
       config.attendanceArray = [];
+      config.doubleCheckArray = [];
       config.isRecording = true;
 
       var today = new Date();
@@ -23,14 +24,22 @@ exports.run = (client, message, config) => {
       fs.readFile('./logs/' + thisMonth + '.txt', 'utf-8', function(err, data) {
         if (err) {
           if (err.code === 'ENOENT') {
-            console.log('doesnt exist');
             config.attendanceArray.unshift(thisDay);
           }
         } else {
-          console.log('exists');
           var theFile = data.toString();
           if (theFile.indexOf(thisDay) == -1) {
             config.attendanceArray.unshift(thisDay);
+          } else if (theFile.indexOf(thisDay) > -1) {
+            var wholeFile = data.toString();
+            var lastPartFile = wholeFile.substring(
+              wholeFile.indexOf(thisDay) + thisDay.length,
+              wholeFile.length
+            );
+            var alreadyRecordedArr = lastPartFile.trim().split('\r\n');
+            //ES6 way of push an array into an array
+            //https://stackoverflow.com/questions/1374126/how-to-extend-an-existing-javascript-array-with-another-array-without-creating
+            config.doubleCheckArray.push(...alreadyRecordedArr);
           }
         }
       });

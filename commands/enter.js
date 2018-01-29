@@ -3,7 +3,9 @@ exports.run = (client, message, config) => {
     //only enter their username if they haven't entered today already
     if (
       config.attendanceArray.includes(message.author.username) ||
-      config.attendanceArray.includes(message.member.nickname)
+      config.attendanceArray.includes(message.member.nickname) ||
+      config.doubleCheckArray.includes(message.author.username) ||
+      config.doubleCheckArray.includes(message.member.nickname)
     ) {
       return message.reply('You have already entered today.');
     } else {
