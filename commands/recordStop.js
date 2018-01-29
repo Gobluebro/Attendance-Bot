@@ -25,8 +25,6 @@ exports.run = (client, message, config) => {
         var year = today.getFullYear(); //gets the 4 digit version
         thisMonth = year + '-' + month;
         thisDay = year + '/' + month + '/' + day;
-        //unshift brings the date to the front of the array
-        arrayAttendance.unshift(thisDay);
 
         //w -open file for writing. the file is created (if it does not exist) or truncated (if it exists).
         //wx - like w but fails if path exists.

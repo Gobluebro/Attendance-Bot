@@ -46,7 +46,6 @@ exports.run = (client, messsage, args) => {
         //remove the user, remove the empty line, combine them together with the stuff before.
         var removeUser = lastPartFile.replace(args[1], '');
         var combine = firstPartFile + removeUser.replace(/(\r\n|\n|\r)/, '');
-        console.log(combine);
         fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', err => {
           if (err) throw err;
           return message.reply(
