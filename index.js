@@ -62,6 +62,14 @@ client.on('message', async message => {
         const drawFile = require('./commands/draw.js');
         drawFile.run(client, message, args);
         break;
+      case 'attendviewday':
+        const viewDayFile = require('./commands/viewDay.js');
+        viewDayFile.run(client, message, args);
+        break;
+      case 'attendviewmonth':
+        const viewMonthFile = require('./commands/viewMonth.js');
+        viewMonthFile.run(client, message, args);
+        break;
       //#endregion
 
       //#region manual

@@ -11,7 +11,9 @@ exports.run = (client, messsage, args) => {
   if (errorLog != '') {
     return message.reply(errorLog);
   }
-  var thisMonth = args[0].split('/')[0] + '-' + args[0].split('/')[1];
+  var theYear = args[0].split('/')[0];
+  var theMonth = args[0].split('/')[1];
+  var thisMonth = theYear + '-' + theMonth;
   fs.open('./logs/' + thisMonth + '.txt', 'r', (err, fd) => {
     if (err) {
       if (err.code === 'ENOENT') {
@@ -33,9 +35,7 @@ exports.run = (client, messsage, args) => {
       );
       var currentDayIndex = lastPartFile.indexOf(args[0]);
       var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
-      var nextDayFull = `${args[0].split('/')[0]}/
-        ${args[0].split('/')[1]}/
-        ${nextDay.toString()}`;
+      var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
       var nextDayIndex = lastPartFile.indexOf(nextDayFull);
       //making sure I don't accidentally delete a user from a differnt date
       if (nextDayIndex < lastPartFile.indexOf(args[1])) {

@@ -6,7 +6,7 @@ exports.run = (client, message, args) => {
   if (errorLog != '') {
     return message.reply(errorLog);
   }
-  errorLog = util.checkDate(args, false);
+  errorLog = util.checkDate(args, true);
   if (errorLog != '') {
     return message.reply(errorLog);
   }
@@ -18,30 +18,27 @@ exports.run = (client, message, args) => {
       if (err.code === 'ENOENT') {
         return message.reply(
           'That file does not exist.\n' +
-            'Make sure you have the correct format e.g, !attenddraw YYYY/MM/DD'
+            'Make sure you have the correct format e.g, !attendviewday YYYY/MM/DD'
         );
       }
       throw err;
     }
     fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
       if (err) throw err;
-      var theUsers = [];
-      var wholeFile = data.toString().split('\r\n');
-      for (var i = 0; i < wholeFile.length; i++) {
-        if (wholeFile[i].includes('/')) {
-          continue;
-        } else {
-          theUsers.push(wholeFile[i]);
-        }
+      var wholeFile = data.toString();
+      var currentDayIndex = wholeFile.indexOf(args[0]);
+      // 10 means decimal
+      var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
+      var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
+      var nextDayIndex = wholeFile.indexOf(nextDayFull);
+      var dayResults = '';
+      console.log(nextDayIndex);
+      if (nextDayIndex > -1) {
+        dayResults = wholeFile.substring(currentDayIndex, nextDayIndex);
+      } else {
+        dayResults = wholeFile.substring(currentDayIndex, wholeFile.length);
       }
-      //this needs to be inside the readfile or else it will be a blank array
-      return message.channel.send(
-        `The winner for the month of ${args[0]} is ${util.drawWinner(theUsers)}`
-      );
-    });
-    //must close any opens or else an error can throw "too many files open"
-    fs.close(fd, err => {
-      if (err) throw err;
+      return message.channel.send(dayResults);
     });
   });
 };

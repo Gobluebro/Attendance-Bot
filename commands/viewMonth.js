@@ -18,26 +18,24 @@ exports.run = (client, message, args) => {
       if (err.code === 'ENOENT') {
         return message.reply(
           'That file does not exist.\n' +
-            'Make sure you have the correct format e.g, !attenddraw YYYY/MM/DD'
+            'Make sure you have the correct format e.g, !attendviewmonth YYYY/MM/DD'
         );
       }
       throw err;
     }
     fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
       if (err) throw err;
-      var theUsers = [];
-      var wholeFile = data.toString().split('\r\n');
-      for (var i = 0; i < wholeFile.length; i++) {
-        if (wholeFile[i].includes('/')) {
-          continue;
+      var wholeFile = data.toString();
+      wholeFileArray = wholeFile.split('\r\n');
+      var formattedFileString = '';
+      for (let i = 0; i < wholeFileArray.length; i++) {
+        if (wholeFileArray[i].includes('/')) {
+          formattedFileString += '**__' + wholeFileArray[i] + '__**\n';
         } else {
-          theUsers.push(wholeFile[i]);
+          formattedFileString += wholeFileArray[i] + '\n';
         }
       }
-      //this needs to be inside the readfile or else it will be a blank array
-      return message.channel.send(
-        `The winner for the month of ${args[0]} is ${util.drawWinner(theUsers)}`
-      );
+      return message.channel.send(formattedFileString);
     });
     //must close any opens or else an error can throw "too many files open"
     fs.close(fd, err => {
