@@ -62,6 +62,10 @@ client.on('message', async message => {
         const drawFile = require('./commands/draw.js');
         drawFile.run(client, message, args);
         break;
+      case 'attendreminder':
+        const timeRemainingReminder = require('./commands/timeRemainingReminder.js');
+        timeRemainingReminder.run(client, message, args);
+        break;
       case 'attendviewday':
         const viewDayFile = require('./commands/viewDay.js');
         viewDayFile.run(client, message, args);
