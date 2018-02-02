@@ -36,7 +36,11 @@ exports.run = (client, message, args) => {
       }
       //this needs to be inside the readfile or else it will be a blank array
       return message.channel.send(
-        `The winner for the month of ${args[0]} is ${util.drawWinner(theUsers)}`
+        ':tada: The winner for the month of ' +
+          args[0] +
+          ' is ' +
+          util.drawWinner(theUsers) +
+          ' :confetti_ball:'
       );
     });
     //must close any opens or else an error can throw "too many files open"

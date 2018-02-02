@@ -32,13 +32,16 @@ exports.run = (client, message, args) => {
       var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
       var nextDayIndex = wholeFile.indexOf(nextDayFull);
       var dayResults = '';
-      console.log(nextDayIndex);
       if (nextDayIndex > -1) {
         dayResults = wholeFile.substring(currentDayIndex, nextDayIndex);
       } else {
         dayResults = wholeFile.substring(currentDayIndex, wholeFile.length);
       }
       return message.channel.send(dayResults);
+    });
+    //must close any opens or else an error can throw "too many files open"
+    fs.close(fd, err => {
+      if (err) throw err;
     });
   });
 };

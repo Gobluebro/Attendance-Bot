@@ -105,9 +105,15 @@ client.on('message', async message => {
   //#endregion
 
   //#region All users commands
-  if (command === 'enter') {
-    const enterFile = require('./commands/enter.js');
-    enterFile.run(client, message, config);
+  switch (command) {
+    case 'enter':
+      const enterFile = require('./commands/enter.js');
+      enterFile.run(client, message, config);
+      break;
+    case 'attendviewcount':
+      const viewCountFile = require('./commands/viewCount.js');
+      viewCountFile.run(client, message, args);
+      break;
   }
   //#endregion
 });
