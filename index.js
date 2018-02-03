@@ -1,10 +1,27 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
+const cron = require('node-cron');
 
-// client.on('ready', () => {
-
-// });
+//#region Automation
+client.on('ready', () => {
+  //client.user.setGame('');
+  cron.schedule('0 9 * * Tuesday,Wednesday,Thursday', function() {
+    console.log('start');
+    const timeStartFile = require('./commands/autoStart.js');
+    timeStartFile.run(client, config);
+  });
+  cron.schedule('30 9 * * Tuesday,Wednesday,Thursday', function() {
+    var message = client.channels.find('id', config.giveawayChannel);
+    message.send('Attendance is ending in 5 minutes');
+  });
+  cron.schedule('35 9 * * Tuesday,Wednesday,Thursday', function() {
+    console.log('stop');
+    const timeEndFile = require('./commands/autoEnd.js');
+    timeEndFile.run(client, config);
+  });
+});
+//#endregion
 
 client.on('message', async message => {
   //only that channel
@@ -23,10 +40,6 @@ client.on('message', async message => {
     .trim()
     .split(/ +/g);
   const command = args.shift().toLowerCase();
-
-  //console.log(args + " " + command);
-  //console.log(attendanceArray.toString);
-  //console.log(`Config file recording varible is ${config.isAutomated}`);
 
   //#region Mod only commands
   //if they have modorator permissions allow
@@ -63,8 +76,8 @@ client.on('message', async message => {
         drawFile.run(client, message, args);
         break;
       case 'attendreminder':
-        const timeRemainingReminder = require('./commands/timeRemainingReminder.js');
-        timeRemainingReminder.run(client, message, args);
+        const timeReminderFile = require('./commands/timeReminder.js');
+        timeReminderFile.run(client, message, args);
         break;
       case 'attendviewday':
         const viewDayFile = require('./commands/viewDay.js');
@@ -84,24 +97,6 @@ client.on('message', async message => {
       case 'attendstop':
         const recordStopFile = require('./commands/recordStop.js');
         recordStopFile.run(client, message, config);
-        break;
-      //#endregion
-
-      //#region automation
-      case 'attendtimestart':
-        return message.reply('not working currently');
-        //const timeStartFile = require('./commands/timeStart.js');
-        //timeStartFile.run(client, message, fs);
-        break;
-      case 'attendtimeend':
-        return message.reply('not working currently');
-        //const timeEndFile = require('./commands/timeEnd.js');
-        //timeEndFile.run(client, message, fs);
-        break;
-      case 'attendlength':
-        return message.reply('not working currently');
-        //const timeLengthFile = require('./commands/timeLength.js');
-        //timeLengthFile.run(client, message, fs);
         break;
       //#endregion
     }
