@@ -6,3 +6,6 @@ copy-config.json
 #log files#
 logs/*.txt
 
+#node modules folder#
+node_modules/
+
