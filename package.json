@@ -1,0 +1,24 @@
+{
+  "name": "attendance-bot",
+  "version": "1.0.0",
+  "description": "World of Warcraft raiding guild runs a giveaway for people who sign in early to reward those who are early to the raid. This Discord bot is being made to automate that process for the person who runs it.",
+  "main": "index.js",
+  "dependencies": {
+    "discord.js": "^11.2.1",
+    "node-cron": "^1.2.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gobluebro/Attendance-Bot.git"
+  },
+  "author": "Gobluebro",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gobluebro/Attendance-Bot/issues"
+  },
+  "homepage": "https://github.com/Gobluebro/Attendance-Bot#readme"
+}
