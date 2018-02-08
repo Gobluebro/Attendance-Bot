@@ -5,18 +5,20 @@ const cron = require('node-cron');
 
 //#region Automation
 client.on('ready', () => {
+  console.log(new Date());
   //client.user.setGame('');
-  cron.schedule('0 9 * * Tuesday,Wednesday,Thursday', function() {
-    console.log('start');
+  cron.schedule('0 21 * * Tuesday,Wednesday,Thursday', function() {
     const timeStartFile = require('./commands/autoStart.js');
     timeStartFile.run(client, config);
   });
-  cron.schedule('30 9 * * Tuesday,Wednesday,Thursday', function() {
-    var message = client.channels.find('id', config.giveawayChannel);
-    message.send('Attendance is ending in 5 minutes');
+  cron.schedule('30 21 * * Tuesday,Wednesday,Thursday', function() {
+    if (config.isAutomated) {
+      console.log('warning ' + new Date());
+      var message = client.channels.find('id', config.giveawayChannel);
+      message.send('Attendance is ending in 5 minutes');
+    }
   });
-  cron.schedule('35 9 * * Tuesday,Wednesday,Thursday', function() {
-    console.log('stop');
+  cron.schedule('35 21 * * Tuesday,Wednesday,Thursday', function() {
     const timeEndFile = require('./commands/autoEnd.js');
     timeEndFile.run(client, config);
   });

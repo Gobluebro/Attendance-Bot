@@ -10,6 +10,7 @@ exports.run = (client, config) => {
     if (!config.isRecording) {
       return console.log('Attendance Bot is not currently recording.');
     } else {
+      console.log('stop ' + new Date());
       //stop the recording but not saving it to config
       //if the bot were to die we don't want to save any recordings
       config.isRecording = false;

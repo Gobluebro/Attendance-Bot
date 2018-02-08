@@ -10,6 +10,7 @@ exports.run = (client, config) => {
     if (config.isRecording) {
       return console.log('Attendance Bot is already recording.');
     } else {
+      console.log('start ' + new Date());
       config.attendanceArray = [];
       config.doubleCheckArray = [];
       config.isRecording = true;
