@@ -2,7 +2,7 @@ const util = require('../util.js');
 const fs = require('fs');
 
 //remove a user from a specific month
-exports.run = (client, messsage, args) => {
+exports.run = (client, message, args) => {
   var errorLog = util.checkArguments(args, 2);
   if (errorLog != '') {
     return message.reply(errorLog);
@@ -20,7 +20,7 @@ exports.run = (client, messsage, args) => {
         return message.reply(
           'That file does not exist.\n' +
             'Make sure you have the correct format\n' +
-            'e.g, !attendremove 2017/12/25 username'
+            'e.g, !attendremove YYYY/MM/DD username'
         );
       }
       throw err;
@@ -37,22 +37,46 @@ exports.run = (client, messsage, args) => {
       var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
       var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
       var nextDayIndex = lastPartFile.indexOf(nextDayFull);
+      var wholeDay = '';
+      var removeUser = '';
+      var combine = '';
       //making sure I don't accidentally delete a user from a differnt date
-      if (nextDayIndex < lastPartFile.indexOf(args[1])) {
-        return message.reply(
-          'The user you specified is not found on that date.'
-        );
-      } else {
-        //remove the user, remove the empty line, combine them together with the stuff before.
-        var removeUser = lastPartFile.replace(args[1], '');
-        var combine = firstPartFile + removeUser.replace(/(\r\n|\n|\r)/, '');
-        fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', err => {
-          if (err) throw err;
+      if (nextDayIndex === -1) {
+        wholeDay = lastPartFile;
+        //if user is not found on this date.
+        if (wholeDay.indexOf(args[1]) === -1) {
           return message.reply(
-            `${args[1]} has been removed from the recording on ${args[0]}`
+            'The user you specified is not found on that date.'
           );
-        });
+        }
+        //remove the user, remove the empty line, combine them together with the stuff before.
+        removeUserArr = wholeDay.split('\r\n');
+        removeUserArr.splice(removeUserArr.indexOf(args[1]), 1);
+        removeUser = removeUserArr.join('\r\n');
+        combine = firstPartFile + removeUser;
+      } else {
+        wholeDay = lastPartFile.substring(currentDayIndex, nextDayIndex - 1);
+        //if user is not found on this date.
+        if (wholeDay.indexOf(args[1]) === -1) {
+          return message.reply(
+            'The user you specified is not found on that date.'
+          );
+        }
+        //remove the user and combine them together with the stuff before and after.
+        removeUserArr = wholeDay.split('\r\n');
+        removeUserArr.splice(removeUserArr.indexOf(args[1]), 1);
+        removeUser = removeUserArr.join('\r\n');
+        combine =
+          firstPartFile +
+          removeUser +
+          lastPartFile.substring(nextDayIndex, lastPartFile.length);
       }
+      fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', err => {
+        if (err) throw err;
+        return message.reply(
+          `${args[1]} has been removed from the recording on ${args[0]}`
+        );
+      });
     });
     //must close any opens or else an error can throw "too many files open"
     fs.close(fd, err => {
