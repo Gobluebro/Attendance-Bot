@@ -7,20 +7,22 @@ const cron = require('node-cron');
 client.on('ready', () => {
   console.log(new Date());
   //client.user.setGame('');
-  cron.schedule('0 21 * * Tuesday,Wednesday,Thursday', function() {
-    const timeStartFile = require('./commands/autoStart.js');
-    timeStartFile.run(client, config);
-  });
-  cron.schedule('30 21 * * Tuesday,Wednesday,Thursday', function() {
-    if (config.isAutomated) {
-      console.log('warning ' + new Date());
-      var message = client.channels.find('id', config.giveawayChannel);
-      message.send('Attendance is ending in 5 minutes');
+  cron.schedule('0,30,35 21 * * Tuesday,Wednesday,Thursday', function() {
+    var theDate = new Date();
+    if (theDate.getMinutes() == 0) {
+      const timeStartFile = require('./commands/autoStart.js');
+      timeStartFile.run(client, config);
+    } else if (theDate.getMinutes() == 30) {
+      if (config.isAutomated) {
+        console.log('warning ' + new Date());
+        return client.channels
+          .get(config.giveawayChannel)
+          .send('Attendance is ending in 5 minutes');
+      }
+    } else if (theDate.getMinutes() = 35){
+      const timeEndFile = require('./commands/autoEnd.js');
+      timeEndFile.run(client, config);
     }
-  });
-  cron.schedule('35 21 * * Tuesday,Wednesday,Thursday', function() {
-    const timeEndFile = require('./commands/autoEnd.js');
-    timeEndFile.run(client, config);
   });
 });
 //#endregion

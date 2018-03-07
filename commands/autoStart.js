@@ -3,9 +3,11 @@ const fs = require('fs');
 exports.run = (client, config) => {
   // need this because since there is no message
   // there is no way to find the channel to send a message to
-  var message = client.channels.find('id', config.giveawayChannel);
+  var message = client.channels.get(config.giveawayChannel);
   if (!config.isAutomated) {
-    return console.log('Attendance Bot is currently in manual mode.');
+    return console.log(
+      'Attendance Bot is currently in manual mode.' + new Date()
+    );
   } else {
     if (config.isRecording) {
       return console.log('Attendance Bot is already recording.');
