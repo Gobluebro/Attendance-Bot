@@ -19,7 +19,7 @@ client.on('ready', () => {
           .get(config.giveawayChannel)
           .send('Attendance is ending in 5 minutes');
       }
-    } else if (theDate.getMinutes() = 35){
+    } else if (theDate.getMinutes() == 35) {
       const timeEndFile = require('./commands/autoEnd.js');
       timeEndFile.run(client, config);
     }
