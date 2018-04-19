@@ -3,7 +3,7 @@ exports.run = (client, message, args) => {
     '__Moderator Commands__\n' +
     '!attendstart - Starts the recording of attendance.\n' +
     '!attendcurrent - Shows the currently recorded users during attendance.\n' +
-    '!attendremind [#] - Sends a TTS message of how many minutes remaining in attendance' +
+    '!attendreminder [#] - Sends a TTS message of how many minutes remaining in attendance.\n' +
     '!attendstop - Stops the recording of attendance.\n' +
     '!attendadd [YYYY/MM/DD username] - Adds a user to attendance.\n' +
     '!attendremove [YYYY/MM/DD username] - Removes a user from attendance.\n' +

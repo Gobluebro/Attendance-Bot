@@ -1,20 +1,20 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
-const cron = require('node-cron');
+const schedule = require('node-schedule');
 
 //#region Automation
 client.on('ready', () => {
   console.log(new Date());
   //client.user.setGame('');
-  cron.schedule('0,30,35 21 * * Tuesday,Wednesday,Thursday', function() {
+  var job = schedule.scheduleJob('0,30,35 21 * * 2-4', function() {
     var theDate = new Date();
     if (theDate.getMinutes() == 0) {
       const timeStartFile = require('./commands/autoStart.js');
       timeStartFile.run(client, config);
     } else if (theDate.getMinutes() == 30) {
       if (config.isAutomated) {
-        console.log('warning ' + new Date());
+        console.log(new Date() + ' 5 minute automated warning');
         return client.channels
           .get(config.giveawayChannel)
           .send('Attendance is ending in 5 minutes');
