@@ -1,0 +1,10 @@
+{
+  "token": "yourtokenhere",
+  "prefix": "!",
+  "giveawayChannel" : "your giveaway channel id here",
+  "moderatorName": "the name of the role you wish to give permissions to",
+  "isAutomated": true,
+  "isRecording": false,
+  "attendanceArray": [],
+  "doubleCheckArray": []
+}
