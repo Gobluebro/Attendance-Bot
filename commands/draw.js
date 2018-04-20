@@ -11,7 +11,7 @@ exports.run = (client, message, args) => {
     return message.reply(errorLog);
   }
   var theYear = args[0].split('/')[0];
-  var theMonth = args[0].split('/')[1];
+  var theMonth = parseInt(args[0].split('/')[1]).toString();
   var thisMonth = theYear + '-' + theMonth;
   fs.open('./logs/' + thisMonth + '.txt', 'r', (err, fd) => {
     if (err) {

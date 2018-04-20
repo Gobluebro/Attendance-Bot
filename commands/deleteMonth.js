@@ -10,7 +10,9 @@ exports.run = (client, message, args) => {
   if (errorLog != '') {
     return message.reply(errorLog);
   }
-  var thisMonth = args[0].split('/')[0] + '-' + args[0].split('/')[1];
+  var theYear = args[0].split('/')[0];
+  var theMonth = parseInt(args[0].split('/')[1]).toString();
+  var thisMonth = theYear + '-' + theMonth;
   fs.unlink('./logs/' + thisMonth + '.txt', function(err) {
     if (err) {
       if (err.code === 'ENOENT') {

@@ -11,8 +11,10 @@ exports.run = (client, message, args) => {
     return message.reply(errorLog);
   }
   var theYear = args[0].split('/')[0];
-  var theMonth = args[0].split('/')[1];
+  var theMonth = parseInt(args[0].split('/')[1]).toString();
+  var theDay = parseInt(args[0].split('/')[2]).toString();
   var thisMonth = theYear + '-' + theMonth;
+  var thisDate = theYear + '/' + theMonth + '/' + theDay;
   fs.open('./logs/' + thisMonth + '.txt', 'r', (err, fd) => {
     if (err) {
       if (err.code === 'ENOENT') {
@@ -28,7 +30,7 @@ exports.run = (client, message, args) => {
       var wholeFile = data.toString();
       var currentDayIndex = wholeFile.indexOf(args[0]);
       // 10 means decimal
-      var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
+      var nextDay = parseInt(theDay, 10) + 1;
       var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
       var nextDayIndex = wholeFile.indexOf(nextDayFull);
       var dayResults = '';

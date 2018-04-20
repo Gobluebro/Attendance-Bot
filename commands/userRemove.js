@@ -12,8 +12,10 @@ exports.run = (client, message, args) => {
     return message.reply(errorLog);
   }
   var theYear = args[0].split('/')[0];
-  var theMonth = args[0].split('/')[1];
+  var theMonth = parseInt(args[0].split('/')[1]).toString();
+  var theDay = parseInt(args[0].split('/')[2]).toString();
   var thisMonth = theYear + '-' + theMonth;
+  var thisDate = theYear + '/' + theMonth + '/' + theDay;
   fs.open('./logs/' + thisMonth + '.txt', 'r', (err, fd) => {
     if (err) {
       if (err.code === 'ENOENT') {
@@ -28,13 +30,13 @@ exports.run = (client, message, args) => {
     fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
       if (err) throw err;
       var wholeFile = data.toString();
-      var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(args[0]));
+      var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(thisDate));
       var lastPartFile = wholeFile.substring(
-        wholeFile.indexOf(args[0]),
+        wholeFile.indexOf(thisDate),
         wholeFile.length
       );
-      var currentDayIndex = lastPartFile.indexOf(args[0]);
-      var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
+      var currentDayIndex = lastPartFile.indexOf(thisDate);
+      var nextDay = parseInt(theDay, 10) + 1;
       var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
       var nextDayIndex = lastPartFile.indexOf(nextDayFull);
       var wholeDay = '';

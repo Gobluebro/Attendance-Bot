@@ -18,8 +18,10 @@ exports.run = (client, message, config, args) => {
       return message.reply(errorLog);
     }
     var theYear = args[0].split('/')[0];
-    var theMonth = args[0].split('/')[1];
+    var theMonth = parseInt(args[0].split('/')[1]).toString();
+    var theDay = parseInt(args[0].split('/')[2]).toString();
     var thisMonth = theYear + '-' + theMonth;
+    var thisDate = theYear + '/' + theMonth + '/' + theDay;
     fs.open('./logs/' + thisMonth + '.txt', 'r', (err, fd) => {
       if (err) {
         if (err.code === 'ENOENT') {
@@ -33,15 +35,9 @@ exports.run = (client, message, config, args) => {
       fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
         if (err) throw err;
         var wholeFile = data.toString();
-        var thisDay = args[0];
         var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
-        var nextDayFull =
-          args[0].split('/')[0] +
-          '/' +
-          args[0].split('/')[1] +
-          '/' +
-          nextDay.toString();
-        if (wholeFile.indexOf(thisDay) == -1) {
+        var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
+        if (wholeFile.indexOf(theDay) == -1) {
           return message.reply(args[0] + ' is not recorded yet.');
         } else if (wholeFile.indexOf(nextDayFull) == -1) {
           var addUserToEnd = wholeFile + '\r\n' + args[1];
