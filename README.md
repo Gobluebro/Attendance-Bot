@@ -30,7 +30,7 @@ This Discord bot is made to automate that process for the person who runs it.
 - Discord.js
 - node-schedule ~~node-cron~~
 
-**Package Manager**
+**Dependency Manager**
 - NPM
 
 **Hosting**
