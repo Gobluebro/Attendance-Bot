@@ -40,7 +40,7 @@ client.on('message', async message => {
   if (message.author.bot) return;
   //user error handling
   if (
-    isRecording == true &&
+    config.isRecording == true &&
     (message.content == 'lenter' || message.content == 'Ienter')
   ) {
     return message.reply(

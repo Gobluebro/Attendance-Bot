@@ -26,7 +26,8 @@ exports.run = (client, message, args) => {
         description: printHelp,
         title: '__Command List__',
         thumbnail: {
-          url: '/images/icon used for discord.jpg'
+          url:
+            'https://raw.githubusercontent.com/Gobluebro/Attendance-Bot/master/images/icon%20used%20for%20discord.jpg'
         },
         author: {
           name: 'Attendance-bot',
