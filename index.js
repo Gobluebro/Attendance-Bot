@@ -5,7 +5,7 @@ const schedule = require('node-schedule');
 
 //#region Automation
 client.on('ready', () => {
-  console.log(new Date());
+  console.log(new Date() + ' bot turned on');
   //client.user.setGame('');
   var job = schedule.scheduleJob('0,30,35 21 * * 2-4', function() {
     var theDate = new Date();
@@ -34,8 +34,17 @@ client.on('message', async message => {
     message.channel.id !== config.giveawayChannelTest
   )
     return;
-  //don't accept anything from the bot
+  //don't accept anything from bots
   if (message.author.bot) return;
+  //user error handling
+  if (
+    isRecording == true &&
+    (message.content == 'lenter' || message.content == 'Ienter')
+  ) {
+    return message.reply(
+      'You have entered the wrong command. You have not been entered.\nPlease use the !enter (exclaimation point) enter command.'
+    );
+  }
   //requires the prefix
   if (!message.content.startsWith(config.prefix)) return;
 
