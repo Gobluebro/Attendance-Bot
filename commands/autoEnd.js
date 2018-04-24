@@ -6,13 +6,15 @@ exports.run = (client, config) => {
   var message = client.channels.get(config.giveawayChannel);
   if (!config.isAutomated) {
     return console.log(
-      'Attendance Bot is currently in manual mode.' + new Date()
+      new Date() + ' attendance Bot is currently in manual mode.'
     );
   } else {
     if (!config.isRecording) {
-      return console.log('Attendance Bot is not currently recording.');
+      return console.log(
+        new Date() + 'attendance Bot is not currently recording.'
+      );
     } else {
-      console.log('stop ' + new Date());
+      console.log(new Date() + ' attendance end');
       //stop the recording but not saving it to config
       //if the bot were to die we don't want to save any recordings
       config.isRecording = false;

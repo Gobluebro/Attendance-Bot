@@ -6,13 +6,13 @@ exports.run = (client, config) => {
   var message = client.channels.get(config.giveawayChannel);
   if (!config.isAutomated) {
     return console.log(
-      'Attendance Bot is currently in manual mode.' + new Date()
+      new Date() + ' attendance Bot is currently in manual mode.'
     );
   } else {
     if (config.isRecording) {
-      return console.log('Attendance Bot is already recording.');
+      return console.log(new Date() + ' attendance bot is already recording.');
     } else {
-      console.log('start ' + new Date());
+      console.log(new Date() + ' start attendance automatically');
       config.attendanceArray = [];
       config.doubleCheckArray = [];
       config.isRecording = true;

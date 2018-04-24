@@ -65,6 +65,10 @@ exports.run = (client, message, config, args) => {
           var combine = firstPartFile + addUser + lastPartFile;
           fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', err => {
             if (err) throw err;
+            console.log(
+              new Date() +
+                ` ${args[1]} has been added to the recording on ${args[0]}`
+            );
             return message.reply(
               `${args[1]} has been added to the recording on ${args[0]}`
             );

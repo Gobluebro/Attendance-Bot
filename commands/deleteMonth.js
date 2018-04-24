@@ -23,6 +23,7 @@ exports.run = (client, message, args) => {
         );
       }
     }
+    console.log(new Date() + ` attendance for ${args[0]} removed`);
     return message.reply(`The attendance for ${args[0]} has been removed.`);
   });
 };

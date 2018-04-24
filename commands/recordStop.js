@@ -64,6 +64,7 @@ exports.run = (client, message, config) => {
           });
         });
       }
+      console.log(new Date() + ' attendance manually stopped');
       return message.channel.send('Attendance has stopped recording.');
     }
   }

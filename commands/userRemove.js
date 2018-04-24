@@ -75,6 +75,10 @@ exports.run = (client, message, args) => {
       }
       fs.writeFile('./logs/' + thisMonth + '.txt', combine, 'utf8', err => {
         if (err) throw err;
+        console.log(
+          new Date() +
+            ` ${args[1]} has been removed from the recording on ${args[0]}`
+        );
         return message.reply(
           `${args[1]} has been removed from the recording on ${args[0]}`
         );

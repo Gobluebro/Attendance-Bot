@@ -11,6 +11,7 @@ exports.run = (client, message, config) => {
       JSON.stringify(config, null, 2),
       err => console.error
     );
+    console.log(new Date() + ' attendance bot switched to manual');
     return message.reply('Attendance Bot is now in manual mode.');
   } else {
     config.isAutomated = true;
@@ -19,6 +20,7 @@ exports.run = (client, message, config) => {
       JSON.stringify(config, null, 2),
       err => console.error
     );
+    console.log(new Date() + ' attendance bot switched to auto');
     return message.reply('Attendance Bot is now in automated mode.');
   }
 };

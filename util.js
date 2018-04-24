@@ -75,7 +75,8 @@ exports.checkArguments = function(args, numberOfArguments) {
 exports.drawWinner = myArray => {
   var randomNum = Math.floor(Math.random() * myArray.length);
   console.log(
-    `The winning entry number is ${randomNum} - user ${myArray[randomNum]}`
+    new Date() +
+      `The winning entry number is ${randomNum} - user ${myArray[randomNum]}`
   );
   return myArray[randomNum];
 };

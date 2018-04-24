@@ -44,6 +44,7 @@ exports.run = (client, message, config) => {
         }
       });
       //start the recording
+      console.log(new Date() + ' attendance manually started');
       return message.channel.send(
         'Attendance recording has started. \n' +
           'Please enter the command !enter to have your name recorded for attendance.'
