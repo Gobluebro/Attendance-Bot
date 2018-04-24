@@ -17,7 +17,9 @@ client.on('ready', () => {
         console.log(new Date() + ' 5 minute automated warning');
         return client.channels
           .get(config.giveawayChannel)
-          .send('Attendance is ending in 5 minutes');
+          .send('Attendance is ending in 5 minutes', {
+            tts: true
+          });
       }
     } else if (theDate.getMinutes() == 35) {
       const timeEndFile = require('./commands/autoEnd.js');
