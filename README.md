@@ -30,6 +30,9 @@ This Discord bot is made to automate that process for the person who runs it.
 - Discord.js
 - node-schedule ~~node-cron~~
 
+**Dependency Manager**
+- NPM
+
 **Hosting**
 - Amazon AWS EC2 (free tier / t2 micro)
 
