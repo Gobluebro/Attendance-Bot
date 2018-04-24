@@ -10,7 +10,9 @@ exports.run = (client, message, args) => {
     '!attendautoman - Sets the bot in auto or manual mode and follows those rules.\n' +
     '!attenddeletemonth [YYYY/MM] - Delete a specific month’s recording of attendance.\n' +
     '!attenddraw [YYYY/MM] - Draws a random entry winner from a specific month.\n' +
-    '!attendhelp (text) - Displays and summarizes every command.\n\n' +
+    '!attendhelp (text) - Displays and summarizes every command.\n' +
+    '!attendviewday [YYYY/MM/DD] - Displays every entry for a specific date.\n' +
+    '!attendviewmonth [YYYY/MM] - Displays every entry for a specific month.\n\n' +
     '__Any User Commands__\n' +
     '!attendviewcount (showdates) - Tells you how many times you have entered in a month.\n' +
     '!enter - User command to enter in the giveaway during attendance recording.\n\n' +
