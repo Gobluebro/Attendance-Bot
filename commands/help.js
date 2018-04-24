@@ -25,6 +25,9 @@ exports.run = (client, message, args) => {
         color: 3447003,
         description: printHelp,
         title: '__Command List__',
+        thumbnail: {
+          url: '/images/icon used for discord.jpg'
+        },
         author: {
           name: 'Attendance-bot',
           url: 'https://github.com/Gobluebro/Attendance-Bot',
