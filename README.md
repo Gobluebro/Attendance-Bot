@@ -15,6 +15,9 @@ This Discord bot is made to automate that process for the person who runs it.
 - !attenddeletemonth [YYYY/MM] - Delete a specific month’s recording of attendance.
 - !attenddraw [YYYY/MM] - Draws a random entry winner from a specific month.
 - !attendhelp (text) - Displays and summarizes every command. Use argument 'text' to get the non-embed version.
+- !attendviewday [YYYY/MM/DD] - Displays every entry for a specific date.
+- !attendviewmonth [YYYY/MM] - Displays every entry for a specific month.
+
 #### Any User Commands
 - !attendviewcount (showdates) - Tells you how many times you have entered in a month. Use argument 'showdates' to show every date
 - !enter - User command to enter in the giveaway during attendance recording.
