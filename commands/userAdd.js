@@ -35,7 +35,7 @@ exports.run = (client, message, config, args) => {
       fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
         if (err) throw err;
         var wholeFile = data.toString();
-        var nextDay = parseInt(args[0].split('/')[2], 10) + 1;
+        var nextDay = parseInt(theDay, 10) + 1;
         var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
         if (wholeFile.indexOf(theDay) == -1) {
           return message.reply(args[0] + ' is not recorded yet.');

@@ -28,7 +28,7 @@ exports.run = (client, message, args) => {
     fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
       if (err) throw err;
       var wholeFile = data.toString();
-      var currentDayIndex = wholeFile.indexOf(args[0]);
+      var currentDayIndex = wholeFile.indexOf(thisDate);
       // 10 means decimal
       var nextDay = parseInt(theDay, 10) + 1;
       var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
