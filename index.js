@@ -29,6 +29,14 @@ client.on('ready', () => {
 });
 //#endregion
 
+client.on('error', err => {
+  console.log(err);
+  client.destroy();
+  console.log('Client Destroyed ' + new Date());
+  client.login(config.token);
+  console.log('Client Login ' + new Date());
+});
+
 client.on('message', async message => {
   //only that channel
   if (
