@@ -31,10 +31,13 @@ client.on('ready', () => {
 
 client.on('error', err => {
   console.error(err);
-  client.destroy();
-  console.log(new Date() + ' Client Destroyed');
-  client.login(config.token);
-  console.log(new Date() + ' Client Login');
+  // client.destroy();
+  // console.log(new Date() + ' Client Destroyed');
+  // client.login(config.token);
+  // console.log(new Date() + ' Client Login');
+  return client.channels
+    .get(config.giveawayChannelTest)
+    .send(new Date() + ' Bot error because of ' + err.toString());
 });
 
 client.on('message', async message => {
