@@ -30,11 +30,11 @@ client.on('ready', () => {
 //#endregion
 
 client.on('error', err => {
-  console.log(err);
+  console.error(err);
   client.destroy();
-  console.log('Client Destroyed ' + new Date());
+  console.log(new Date() + ' Client Destroyed');
   client.login(config.token);
-  console.log('Client Login ' + new Date());
+  console.log(new Date() + ' Client Login');
 });
 
 client.on('message', async message => {
