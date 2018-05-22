@@ -37,7 +37,7 @@ client.on('error', err => {
   // console.log(new Date() + ' Client Login');
   return client.channels
     .get(config.giveawayChannelTest)
-    .send(new Date() + ' Bot error because of ' + err.toString());
+    .send(new Date() + ' ' + err.stack());
 });
 
 client.on('message', async message => {
