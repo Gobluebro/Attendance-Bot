@@ -37,7 +37,7 @@ client.on('error', err => {
   // console.log(new Date() + ' Client Login');
   return client.channels
     .get(config.giveawayChannelTest)
-    .send(new Date() + ' ' + JSON.stringify(err));
+    .send(new Date() + ' ' + err);
 });
 
 client.on('message', async message => {
