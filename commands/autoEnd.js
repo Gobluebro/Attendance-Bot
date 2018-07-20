@@ -67,6 +67,7 @@ exports.run = (client, config) => {
           });
         });
       }
+      config.warningSent = true;
       return message.send('Attendance has stopped recording.');
     }
   }

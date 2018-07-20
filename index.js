@@ -13,7 +13,7 @@ client.on('ready', () => {
       const timeStartFile = require('./commands/autoStart.js');
       timeStartFile.run(client, config);
     } else if (theDate.getMinutes() == 30) {
-      if (config.isAutomated) {
+      if (config.isAutomated && !config.warningSent) {
         console.log(new Date() + ' 5 minute automated warning');
         return client.channels
           .get(config.giveawayChannel)
@@ -37,7 +37,7 @@ client.on('error', err => {
   // console.log(new Date() + ' Client Login');
   return client.channels
     .get(config.giveawayChannelTest)
-    .send(new Date() + ' ' + err);
+    .send(new Date() + ' Discord disconnected');
 });
 
 client.on('message', async message => {
