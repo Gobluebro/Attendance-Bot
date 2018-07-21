@@ -18,6 +18,7 @@ exports.run = (client, config) => {
       //stop the recording but not saving it to config
       //if the bot were to die we don't want to save any recordings
       config.isRecording = false;
+      config.warningSent = false;
       //make sure there is something in the array
       //and make sure it's not null or undefined
       if (config.attendanceArray[0] != null) {
@@ -67,7 +68,6 @@ exports.run = (client, config) => {
           });
         });
       }
-      config.warningSent = true;
       return message.send('Attendance has stopped recording.');
     }
   }

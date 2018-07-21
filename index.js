@@ -15,6 +15,7 @@ client.on('ready', () => {
     } else if (theDate.getMinutes() == 30) {
       if (config.isAutomated && !config.warningSent) {
         console.log(new Date() + ' 5 minute automated warning');
+        config.warningSent = true;
         return client.channels
           .get(config.giveawayChannel)
           .send('Attendance is ending in 5 minutes', {
