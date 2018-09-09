@@ -51,14 +51,6 @@ client.on('message', async message => {
   //don't accept anything from bots
   if (message.author.bot) return;
   //user error handling
-  if (
-    config.isRecording == true &&
-    (message.content == 'lenter' || message.content == 'Ienter')
-  ) {
-    return message.reply(
-      'You have entered the wrong command. You have not been entered.\nPlease use the !enter (exclaimation point) enter command.'
-    );
-  }
   //requires the prefix
   if (!message.content.startsWith(config.prefix)) return;
 
@@ -130,7 +122,6 @@ client.on('message', async message => {
   }
   //#endregion
 
-  //#region All users commands
   switch (command) {
     case 'enter':
       const enterFile = require('./commands/enter.js');
@@ -140,6 +131,11 @@ client.on('message', async message => {
       const viewCountFile = require('./commands/viewCount.js');
       viewCountFile.run(client, message, args);
       break;
+    default:
+      return message.reply(
+        message +
+          ' is not a correct command or you are not permitted to use it.\nUse !attendhelp for a list of commands, retype your command, or contact a GM.'
+      );
   }
   //#endregion
 });
