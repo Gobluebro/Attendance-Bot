@@ -3,7 +3,7 @@ const client = new Discord.Client();
 const config = require('./config.json');
 const schedule = require('node-schedule');
 
-//#region Automation
+//Automation
 client.on('ready', () => {
   console.log(new Date() + ' bot turned on');
   //client.user.setGame('');
@@ -28,7 +28,6 @@ client.on('ready', () => {
     }
   });
 });
-//#endregion
 
 client.on('error', err => {
   console.error(err);
@@ -60,84 +59,93 @@ client.on('message', async message => {
     .split(/ +/g);
   const command = args.shift().toLowerCase();
 
-  //#region Mod only commands
+  //Mod only commands
   //if they have modorator permissions allow
+  var commandEntered = false;
   if (message.member.roles.some(r => [config.moderatorName].includes(r.name))) {
     switch (command) {
-      //#region general
+      //general
       case 'attendautoman':
         const autoManFile = require('./commands/autoMan.js');
         autoManFile.run(client, message, config);
+        commandEntered = true;
         break;
-      //attendview
       case 'attendcurrent':
         const recordCurrentFile = require('./commands/recordCurrent.js');
         recordCurrentFile.run(client, message, config);
+        commandEntered = true;
         break;
       case 'attenddeletemonth':
         const deleteMonthFile = require('./commands/deleteMonth.js');
         deleteMonthFile.run(client, message, args);
+        commandEntered = true;
         break;
       case 'attendadd':
         const userAddFile = require('./commands/userAdd.js');
         userAddFile.run(client, message, config, args);
+        commandEntered = true;
         break;
       case 'attendremove':
         const userRemoveFile = require('./commands/userRemove.js');
         userRemoveFile.run(client, message, args);
+        commandEntered = true;
+        break;
+      case 'attenddraw':
+        const drawFile = require('./commands/draw.js');
+        drawFile.run(client, message, args);
+        commandEntered = true;
+        break;
+      case 'attendreminder':
+        const timeReminderFile = require('./commands/timeReminder.js');
+        timeReminderFile.run(client, message, args);
+        commandEntered = true;
+        break;
+      case 'attendviewday':
+        const viewDayFile = require('./commands/viewDay.js');
+        viewDayFile.run(client, message, args);
+        commandEntered = true;
+        break;
+      case 'attendviewmonth':
+        const viewMonthFile = require('./commands/viewMonth.js');
+        viewMonthFile.run(client, message, args);
+        commandEntered = true;
+        break;
+
+      //manual
+      case 'attendstart':
+        const recordStartFile = require('./commands/recordStart.js');
+        recordStartFile.run(client, message, config);
+        commandEntered = true;
+        break;
+      case 'attendstop':
+        const recordStopFile = require('./commands/recordStop.js');
+        recordStopFile.run(client, message, config);
+        commandEntered = true;
+        break;
+    }
+  }
+
+  if (commandEntered == false) {
+    switch (command) {
+      case 'enter':
+        const enterFile = require('./commands/enter.js');
+        enterFile.run(client, message, config);
         break;
       case 'attendhelp':
         const helpFile = require('./commands/help.js');
         helpFile.run(client, message, args);
         break;
-      case 'attenddraw':
-        const drawFile = require('./commands/draw.js');
-        drawFile.run(client, message, args);
+      case 'attendviewcount':
+        const viewCountFile = require('./commands/viewCount.js');
+        viewCountFile.run(client, message, args);
         break;
-      case 'attendreminder':
-        const timeReminderFile = require('./commands/timeReminder.js');
-        timeReminderFile.run(client, message, args);
-        break;
-      case 'attendviewday':
-        const viewDayFile = require('./commands/viewDay.js');
-        viewDayFile.run(client, message, args);
-        break;
-      case 'attendviewmonth':
-        const viewMonthFile = require('./commands/viewMonth.js');
-        viewMonthFile.run(client, message, args);
-        break;
-      //#endregion
-
-      //#region manual
-      case 'attendstart':
-        const recordStartFile = require('./commands/recordStart.js');
-        recordStartFile.run(client, message, config);
-        break;
-      case 'attendstop':
-        const recordStopFile = require('./commands/recordStop.js');
-        recordStopFile.run(client, message, config);
-        break;
-      //#endregion
+      default:
+        return message.reply(
+          message +
+            ' is not a correct command or you are not permitted to use it.\nUse !attendhelp for a list of commands, retype your command, or contact a GM.'
+        );
     }
   }
-  //#endregion
-
-  switch (command) {
-    case 'enter':
-      const enterFile = require('./commands/enter.js');
-      enterFile.run(client, message, config);
-      break;
-    case 'attendviewcount':
-      const viewCountFile = require('./commands/viewCount.js');
-      viewCountFile.run(client, message, args);
-      break;
-    default:
-      return message.reply(
-        message +
-          ' is not a correct command or you are not permitted to use it.\nUse !attendhelp for a list of commands, retype your command, or contact a GM.'
-      );
-  }
-  //#endregion
 });
 //hide the api key in a separate file so I don't need to upload it to github
 client.login(config.token);
