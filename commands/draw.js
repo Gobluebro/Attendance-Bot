@@ -18,7 +18,7 @@ exports.run = (client, message, args) => {
       if (err.code === 'ENOENT') {
         return message.reply(
           'That file does not exist.\n' +
-            'Make sure you have the correct format e.g, !attenddraw YYYY/MM/DD'
+            'Make sure you have the correct format e.g, !attenddraw YYYY/MM'
         );
       }
       throw err;

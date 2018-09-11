@@ -9,3 +9,4 @@ logs/*.txt
 node_modules/
 
 Attendance Discord Bot.gdoc
+.vscode/launch.json
