@@ -26,7 +26,8 @@ exports.run = (client, message, args) => {
     fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
       if (err) throw err;
       var wholeFile = data.toString();
-      wholeFileArray = wholeFile.split('\r\n');
+      // split by carriage return, /\s+/ is regex which will split on 1 or more spaces
+      wholeFileArray = wholeFile.split(/\s+/);
       var formattedFileString = '';
       for (let i = 0; i < wholeFileArray.length; i++) {
         if (wholeFileArray[i].includes('/')) {

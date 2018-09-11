@@ -28,18 +28,22 @@ exports.run = (client, message, args) => {
     fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
       if (err) throw err;
       var wholeFile = data.toString();
-      var currentDayIndex = wholeFile.indexOf(thisDate);
-      // 10 means decimal
-      var nextDay = parseInt(theDay, 10) + 1;
-      var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
-      var nextDayIndex = wholeFile.indexOf(nextDayFull);
-      var dayResults = '';
-      if (nextDayIndex > -1) {
-        dayResults = wholeFile.substring(currentDayIndex, nextDayIndex);
+      if (!wholeFile.includes(thisDate)) {
+        return message.reply('This date has no entries.');
       } else {
-        dayResults = wholeFile.substring(currentDayIndex, wholeFile.length);
+        var currentDayIndex = wholeFile.indexOf(thisDate);
+        // 10 means decimal
+        var nextDay = parseInt(theDay, 10) + 1;
+        var nextDayFull = theYear + '/' + theMonth + '/' + nextDay.toString();
+        var nextDayIndex = wholeFile.indexOf(nextDayFull);
+        var dayResults = '';
+        if (nextDayIndex > -1) {
+          dayResults = wholeFile.substring(currentDayIndex, nextDayIndex);
+        } else {
+          dayResults = wholeFile.substring(currentDayIndex, wholeFile.length);
+        }
+        return message.channel.send(dayResults);
       }
-      return message.channel.send(dayResults);
     });
     //must close any opens or else an error can throw "too many files open"
     fs.close(fd, err => {
