@@ -4,7 +4,7 @@
   "description": "World of Warcraft raiding guild runs a giveaway for people who sign in early to reward those who are early to the raid. This Discord bot is being made to automate that process for the person who runs it.",
   "main": "index.js",
   "dependencies": {
-    "discord.js": "^11.3.2",
+    "discord.js": "^11.4.2",
     "node-schedule": "^1.3.0"
   },
   "devDependencies": {},
