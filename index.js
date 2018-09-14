@@ -9,7 +9,6 @@ client.on('ready', () => {
   client.user.setPresence({
     game: {
       name: 'Once Bitten raid Uldir.',
-      url: 'https://github.com/Gobluebro/Attendance-Bot',
       type: 'WATCHING'
     },
     status: 'online'
