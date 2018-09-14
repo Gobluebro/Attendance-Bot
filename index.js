@@ -6,7 +6,14 @@ const schedule = require('node-schedule');
 //Automation
 client.on('ready', () => {
   console.log(new Date() + ' bot turned on');
-  //client.user.setGame('');
+  client.user.setPresence({
+    game: {
+      name: 'Once Bitten raid Uldir.',
+      url: 'https://github.com/Gobluebro/Attendance-Bot',
+      type: 'WATCHING'
+    },
+    status: 'online'
+  });
   var job = schedule.scheduleJob('0,30,35 21 * * 2-4', function() {
     var theDate = new Date();
     if (theDate.getMinutes() == 0) {
