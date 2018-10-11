@@ -13,12 +13,12 @@ client.on('ready', () => {
     },
     status: 'online'
   });
-  var job = schedule.scheduleJob('20,25,55 20-21 * * 2-4', function() {
+  var job = schedule.scheduleJob('0,5,45 20-21 * * 2-4', function() {
     var theDate = new Date();
-    if (theDate.getHours() == 20 && theDate.getMinutes() == 55) {
+    if (theDate.getHours() == 20 && theDate.getMinutes() == 45) {
       const timeStartFile = require('./commands/autoStart.js');
       timeStartFile.run(client, config);
-    } else if (theDate.getHours() == 21 && theDate.getMinutes() == 20) {
+    } else if (theDate.getHours() == 21 && theDate.getMinutes() == 0) {
       if (config.isAutomated && !config.warningSent) {
         console.log(new Date() + ' 5 minute automated warning');
         config.warningSent = true;
@@ -28,7 +28,7 @@ client.on('ready', () => {
             tts: true
           });
       }
-    } else if (theDate.getHours() == 21 && theDate.getMinutes() == 25) {
+    } else if (theDate.getHours() == 21 && theDate.getMinutes() == 5) {
       const timeEndFile = require('./commands/autoEnd.js');
       timeEndFile.run(client, config);
     }
