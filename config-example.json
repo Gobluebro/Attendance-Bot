@@ -1,6 +1,9 @@
 {
-  "token": "yourtokenhere",
+  "testToken": "yourtestingtokenhere",
+  "prodToken": "yourproductiontokenhere",
   "prefix": "!",
+  "giveawayChannelTest": "your giveaway test channel id here",
+  "giveawayChannelTestProd": "your giveaway production testing channel id here",
   "giveawayChannel" : "your giveaway channel id here",
   "moderatorName": "the name of the role you wish to give permissions to",
   "isAutomated": true,
