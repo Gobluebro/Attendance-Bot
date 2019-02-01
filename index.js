@@ -8,7 +8,7 @@ client.on('ready', () => {
   console.log(new Date() + ' bot turned on');
   client.user.setPresence({
     game: {
-      name: 'Once Bitten raid Uldir.',
+      name: "Once Bitten raid Battle of Dazar'alor.",
       type: 'WATCHING'
     },
     status: 'online'
