@@ -30,7 +30,7 @@ exports.run = (client, message, args) => {
     fs.readFile('./logs/' + thisMonth + '.txt', 'utf8', function(err, data) {
       if (err) throw err;
       var wholeFile = data.toString();
-      if (wholeFile.includes(thisDate)) {
+      if (!wholeFile.includes(thisDate)) {
         return message.reply('This date has no entries.');
       } else {
         var firstPartFile = wholeFile.substring(0, wholeFile.indexOf(thisDate));
