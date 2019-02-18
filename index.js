@@ -50,7 +50,8 @@ client.on('message', async message => {
   //only that channel
   if (
     message.channel.id !== config.giveawayChannel &&
-    message.channel.id !== config.giveawayChannelTest
+    message.channel.id !== config.giveawayChannelTest &&
+    message.channel.id !== config.giveawayChannelTestProd
   )
     return;
   //don't accept anything from bots
