@@ -31,7 +31,7 @@ This Discord bot is made to automate that process for the person who runs it.
 - Javascript
 - ES6
 - Discord.js
-- node-schedule ~~node-cron~~
+- node-schedule
 
 **Dependency Manager**
 - NPM
